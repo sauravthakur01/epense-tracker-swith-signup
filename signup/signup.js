@@ -1,11 +1,12 @@
 const form  = document.getElementById('signup-form')
+const errorDiv = document.getElementById('error')
 
 form.addEventListener('submit' , signup)
 
 async function signup(e){
     
     e.preventDefault();
-
+    errorDiv.innerHTML =''
     try {
         
         const signupDetails ={
@@ -23,8 +24,8 @@ async function signup(e){
         }
         
 
-    } catch (error) {
-        document.body.innerHTML = `<div style="color:red;text-align:center">${error}</div>`
+    } catch (err) {
+        error.innerHTML = `<div style="color:red;text-align:center;padding:10px;margin-bottom:-30px">${err}</div>`
     }
     
 }
