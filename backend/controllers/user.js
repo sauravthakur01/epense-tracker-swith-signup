@@ -21,3 +21,28 @@ exports.postSignup = async(req ,res,next)=>{
     }
     
 }
+
+exports.postLogin = async(req,res,next)=>{
+    try {
+        
+        const {email , password} = req.body ;
+        
+        if(!email || !password){
+            return res.status(400).json({message:'enter all fields'})
+        }
+
+        const user = await User.findAll({where:{email}})
+        
+        if(user.length === 0){
+            return res.status(404).json({message:'user not found'})
+        }
+        const foundUser = user[0];
+        if(foundUser.password !== password){
+            return res.status(404).json({message:'invalid password'})
+        }
+        return res.status(200).json(user)
+
+    } catch (err) {
+        return res.status(500).json(err)
+    }
+}
