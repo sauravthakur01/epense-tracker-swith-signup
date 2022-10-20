@@ -34,13 +34,13 @@ exports.postLogin = async(req,res,next)=>{
         const user = await User.findAll({where:{email}})
         
         if(user.length === 0){
-            return res.status(404).json({message:'user not found'})
+            return res.status(404).json({message:'User not found'})
         }
         const foundUser = user[0];
         if(foundUser.password !== password){
-            return res.status(404).json({message:'invalid password'})
+            return res.status(401).json({message:'User not authorized'})
         }
-        return res.status(200).json(user)
+        return res.status(200).json(foundUser)
 
     } catch (err) {
         return res.status(500).json(err)

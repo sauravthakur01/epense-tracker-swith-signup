@@ -13,7 +13,7 @@ async function login(e){
 
         const response = await axios.post("http://localhost:3000/user/login", loginDetails)
         if(response.status === 200){
-            console.log("success")
+            alert("User login sucessful")
         }else{
             console.log('error')
         }
