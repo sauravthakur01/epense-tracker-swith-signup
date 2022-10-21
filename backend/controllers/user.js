@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user')
 
@@ -49,14 +50,15 @@ exports.postLogin = async(req,res,next)=>{
            if(!matchPassUser){
             return res.status(401).json({message:'User not authorized'})
            }
-           return res.status(200).json(foundUser)
+           
+           return res.status(200).json({message:'login sucess' , token:generateAccessToken(foundUser.id)})
         });
-        // if(foundUser.password !== password){
-        //     return res.status(401).json({message:'User not authorized'})
-        // }
-        // return res.status(200).json(foundUser)
 
     } catch (err) {
         return res.status(500).json(err)
     }
+}
+
+function generateAccessToken(id){
+    return jwt.sign({ userId:id },'itstoken');
 }

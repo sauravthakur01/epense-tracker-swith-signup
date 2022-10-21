@@ -5,10 +5,12 @@ window.addEventListener('DOMContentLoaded' , loadScreen);
 
 async function loadScreen(e){
     e.preventDefault();
+    let token = localStorage.getItem('token');
+    // console.log(token)
 
     try {
-        let response = await axios.get("http://localhost:3000/expense/")
-        console.log(response.data)
+        let response = await axios.get("http://localhost:3000/expense/" , {headers:{"Authorization" : token}})
+        // console.log(response.data)
         response.data.map(expense=>showExpenseOnScreen(expense))
     } catch (error) {
         console.log(error);
@@ -19,14 +21,16 @@ form.addEventListener('submit' , addExpense)
 
 async function addExpense(e){
     e.preventDefault() ;
+    let token = localStorage.getItem('token')
+    
     try {
         const expenseDetails = {
             amount:e.target.amount.value ,
             description: e.target.description.value ,
             category:e.target.category.value
         }
-    
-        let response = await axios.post("http://localhost:3000/expense/add-expense", expenseDetails)
+        
+        let response = await axios.post("http://localhost:3000/expense/add-expense", expenseDetails, {headers : {'Authorization': token}})
         if(response.status === 201){
             // console.log(response.data.data)
             showExpenseOnScreen(response.data.data)
@@ -53,8 +57,9 @@ function showExpenseOnScreen(data){
 }
 
 async function remove (id){
+    let token = localStorage.getItem('token')
     try {
-        await axios.delete(`http://localhost:3000/expense/delete-expense/${id}`)
+        await axios.delete(`http://localhost:3000/expense/delete-expense/${id}` , {headers : {'Authorization': token}} )
         removeFromScreen(id)
     } catch (error) {
         console.log(error);
