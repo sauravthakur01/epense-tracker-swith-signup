@@ -16,11 +16,14 @@ async function login(e){
         const response = await axios.post("http://localhost:3000/user/login", loginDetails)
         if(response.status === 200){
             alert("User login sucessful")
+            window.location.href = '../expense/expense.html'
         }else{
+            e.target.password.value='';
             console.log('error')
         }
 
     } catch (err) {
+        e.target.password.value='';
         error.innerHTML = `<div style="color:red;text-align:center;padding:10px;margin-bottom:-30px">${err}</div>`
     }
 }
