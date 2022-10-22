@@ -6,9 +6,10 @@
     <title>Expense Tracker</title>
     <link rel="stylesheet" href="expense.css" />
   </head>
-  <body>
+  <body class="light">
+    <button id="premium">Buy Premium</button>
     <button id="logout">LogOut</button>
-    <div class="center">
+    <div class="center light">
       <div id="error" style="color:red;padding:10px;margin-bottom:-30px"></div>
       <h1>Add Expense</h1>
       <form method="post" id="expense-form" >
@@ -24,12 +25,13 @@
         <input type="submit" value="Add Expense" >
       </form>
     </div>
-    <div id="expense-div">
+    <div id="expense-div" class="light">
       
     </div>
     <div class="bottom">
       <h5>copyright</h5>
     </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script src="./expense.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.1.3/axios.min.js"></script>
   </body>

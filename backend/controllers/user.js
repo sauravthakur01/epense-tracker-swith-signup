@@ -19,7 +19,7 @@ exports.postSignup = async(req ,res,next)=>{
 
         const saltRounds = 10;
         bcrypt.hash(password, saltRounds, async(err, hash)=>{
-            await User.create({ name , email ,password:hash})
+            await User.create({ name , email ,password:hash , ispremiumuser:false})
             return res.status(201).json({message:'successfully created new user'})
         });
         
@@ -51,7 +51,7 @@ exports.postLogin = async(req,res,next)=>{
             return res.status(401).json({message:'User not authorized'})
            }
            
-           return res.status(200).json({message:'login sucess' , token:generateAccessToken(foundUser.id)})
+           return res.status(200).json({message:'login sucess' , token:generateAccessToken(foundUser.id) , isPremium:foundUser.ispremiumuser})
         });
 
     } catch (err) {

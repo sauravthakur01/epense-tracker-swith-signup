@@ -8,16 +8,21 @@
 body{
   margin: 0;
   padding: 0;
-  background: linear-gradient(120deg,#2980b9, #8e44ad);
   height: 100vh;
   overflow: auto;
 }
 
-#logout{
+body.light{
+  background: linear-gradient(120deg,#2980b9, #8e44ad);
+}
+
+body.dark{
+  background-color: #1f1f1f;
+  color:white;
+}
+
+#logout , #premium{
     position: absolute;
-    top: 10px;
-    right: 10px;
-    width:70px;
     height: 22px;
     border: 1px solid #8e44ad;
     background: #2691d9;
@@ -29,7 +34,19 @@ body{
     box-shadow: 1px 1px 6px rgba(0,0,0,0.5);
 }
 
-#expense-div{
+#logout{
+  top: 10px;
+    right: 10px;
+    width:70px;
+}
+
+#premium{
+  top: 10px;
+ left: 10px;
+  width:100px;
+}
+
+#expense-div.light{
     
   margin: 15px auto;
   /* padding: 10px; */
@@ -38,6 +55,17 @@ body{
   border-radius: 10px;
   box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
 }
+
+#expense-div.dark{
+      
+  margin: 15px auto;
+  width: 700px;
+  background: #474747;
+  border-radius: 10px;
+  box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
+}
+
+
 #expense-div .list{
   padding: 10px 0;
   border-bottom: 2px solid #adadad;
@@ -70,10 +98,19 @@ body{
 .center{
     margin: 25px auto 55px;
     width: 300px;
-    background: white;
     border-radius: 10px;
+  }
+
+  .center.light{
+    background: white;
     box-shadow: 10px 10px 15px rgba(0,0,0,0.05);
   }
+  .center.dark{
+    color:white;
+    background: #474747;
+    box-shadow: 10px 10px 15px rgba(238, 238, 238, 0.05);
+  }
+
   .center h1{
     text-align: center;
     padding: 10px 0;
@@ -83,6 +120,11 @@ body{
     padding: 0 30px;
     box-sizing: border-box;
   }
+
+  center form.dark{
+    color:white ;
+  }
+
   form .txt_field{
     position: relative;
     border-bottom: 2px solid #adadad;
