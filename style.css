@@ -104,3 +104,12 @@ input[type="submit"]:hover{
 .login_link a:hover{
   text-decoration: underline;
 }
+
+.pass{
+  margin: -5px 0 20px 5px;
+  color: #a6a6a6;
+  cursor: pointer;
+}
+.pass:hover{
+  text-decoration: underline;
+}
