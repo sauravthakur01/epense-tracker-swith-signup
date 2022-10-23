@@ -1,25 +1,36 @@
 const form = document.getElementById('expense-form')
 const expenseDiv = document.getElementById('expense-div');
-
+const leaderboardDiv = document.getElementById('right'); 
 
 let token = localStorage.getItem('token');
 
 window.addEventListener('DOMContentLoaded' , loadScreen);
 
-async function loadScreen(e){
-    e.preventDefault();
 
+    function changetheme(){
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+        document.getElementsByClassName('center')[0].classList.remove('light');
+        document.getElementsByClassName('center')[0].classList.add('dark');
+        document.getElementById('expense-div').classList.remove('light');
+        document.getElementById('expense-div').classList.add('dark');
+        document.getElementById('left').classList.remove('light');
+        document.getElementById('left').classList.add('dark');
+        document.getElementsByTagName('input')[0].classList.add('dark');
+        document.getElementById('right').style = 'display:block'
+    }
+
+async function loadScreen(e){
+
+    e.preventDefault();
+ 
+    localStorage.removeItem('clickedUser')
     const usertype = localStorage.getItem('user');
     console.log(usertype == "true")
     if(usertype == "true"){
-        document.body.classList.remove('light')
-        document.body.classList.add('dark')
-        document.getElementsByClassName('center')[0].classList.remove('light')
-        document.getElementsByClassName('center')[0].classList.add('dark')
-        document.getElementById('expense-div').classList.remove('light')
-        document.getElementById('expense-div').classList.add('dark')
+        changetheme()
+        getPremiumLeaderboard()
     }
-
 
     try {
         let response = await axios.get("http://localhost:3000/expense/" , {headers:{"Authorization" : token}})
@@ -58,7 +69,7 @@ async function addExpense(e){
 
 function showExpenseOnScreen(data){
     const child = `<li class="list" id=${data.id}>
-        <span class="expense-info"> ${data.amount} -${data.description} - ${data.category}</span>
+        <span class="expense-info"> ₹ ${data.amount} -${data.description} - ${data.category}</span>
         <span class="btns">
             <button>Edit</button> 
             <button onclick="remove('${data.id}')">Delete</button>
@@ -95,6 +106,45 @@ document.getElementById('premium').onclick = async function(e){
     }
 }
 
+async function getPremiumLeaderboard(){
+    try {
+        const response = await axios.get('http://localhost:3000/expense/premium-leaderboard', {headers : {'Authorization': token}} )
+        
+        if(response.data.success){
+            if(response.data.data.length>0){
+                response.data.data.sort((a,b)=>{
+                    return a.totalExpense - b.totalExpense;
+                });
+                console.log(response.data.data[0].user)
+                response.data.data.map((user , id)=>{
+                    showLeaderboard(user , id);
+                })
+                
+            }
+        }
+        
+    } catch (err) {
+        
+    }
+    
+}
+
+function showLeaderboard(user , id){
+    let child = `<li class="leaderboardList">
+            <p class="sno">${id+1} </p>
+            <p class="name" id="user" onclick="openUserExpenses('${user.user.id}')">${user.user.name}</p>
+            <p class="name">${user.totalExpense}</p>
+    </li>`
+    
+    leaderboardDiv.innerHTML += child
+}
+
+function openUserExpenses(user){
+    console.log(user)
+    localStorage.setItem('clickedUser' , user)
+    window.location.href = '../leaderboard/leaderboard.html'
+}
+
 function checkout(order){
 
     // console.log(order);
@@ -119,7 +169,9 @@ function checkout(order){
                 console.log("done");
                 console.log(res);
                 alert("You are a premium user now");
+                localStorage.setItem('user' , "true")
                 premiumUser();
+                getPremiumLeaderboard()
             })
             .catch(err => console.log(err));
         },
@@ -146,12 +198,16 @@ function checkout(order){
 }
 
 function premiumUser(){
-    document.body.classList.remove('light')
-    document.body.classList.add('dark')
-    document.getElementsByClassName('center')[0].classList.remove('light')
-    document.getElementsByClassName('center')[0].classList.add('dark')
-    document.getElementById('expense-div').classList.remove('light')
-    document.getElementById('expense-div').classList.add('dark')
+        document.body.classList.remove('light');
+        document.body.classList.add('dark');
+        document.getElementsByClassName('center')[0].classList.remove('light');
+        document.getElementsByClassName('center')[0].classList.add('dark');
+        document.getElementById('expense-div').classList.remove('light');
+        document.getElementById('expense-div').classList.add('dark');
+        document.getElementById('left').classList.remove('light');
+        document.getElementById('left').classList.add('dark');
+        document.getElementsByTagName('input')[0].classList.add('dark');
+        document.getElementById('right').style = 'display:block'
 }
 
 document.getElementById('logout').onclick = function(e){
@@ -159,3 +215,4 @@ document.getElementById('logout').onclick = function(e){
     localStorage.removeItem('token');
     window.location.href = '../login/login.html'
 }
+

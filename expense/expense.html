@@ -7,27 +7,63 @@
     <link rel="stylesheet" href="expense.css" />
   </head>
   <body class="light">
-    <button id="premium">Buy Premium</button>
-    <button id="logout">LogOut</button>
-    <div class="center light">
-      <div id="error" style="color:red;padding:10px;margin-bottom:-30px"></div>
-      <h1>Add Expense</h1>
-      <form method="post" id="expense-form" >
-        <div class="txt_field">
-          <input type="number" required name="amount" min="0" placeholder="Amount">
-        </div>
-        <div class="txt_field">
-          <input type="text" required name="description" placeholder="Description">
-        </div>
-        <div class="txt_field">
-          <input type="Category" required name="category" placeholder="Category">
-        </div>
-        <input type="submit" value="Add Expense" >
-      </form>
+    <div id="nav">
+      <button id="premium">Buy Premium</button>
+      <button id="logout">LogOut</button>
     </div>
-    <div id="expense-div" class="light">
-      
-    </div>
+    <section class="row">
+      <div id="left" class="light">
+        <div class="center light">
+          <div
+            id="error"
+            style="color: red; padding: 10px; margin-bottom: -30px"
+          ></div>
+          <h1>Add Expense</h1>
+          <form method="post" id="expense-form">
+            <div class="txt_field">
+              <input
+                type="number"
+                required
+                name="amount"
+                min="0"
+                placeholder="Amount"
+              />
+            </div>
+            <div class="txt_field">
+              <input
+                type="text"
+                required
+                name="description"
+                placeholder="Description"
+              />
+            </div>
+            <div class="txt_field">
+              <input
+                type="Category"
+                required
+                name="category"
+                placeholder="Category"
+              />
+            </div>
+            <input type="submit" value="Add Expense" />
+          </form>
+        </div>
+
+        <div id="expense-div" class="light">
+          <div style="text-align: center"><h1>Expenses</h1></div>
+        </div>
+      </div>
+      <div id="right" class="dark">
+        <div style="text-align: center"><h1>LeaderBoard</h1></div>
+        <li class="leaderboard" >
+          <h4></h4>
+          <h4>Names</h4>
+          <h4>Expense (₹)</h4>
+        </li>
+        
+        
+      </div>
+    </section>
     <div class="bottom">
       <h5>copyright</h5>
     </div>
