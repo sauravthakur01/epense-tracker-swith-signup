@@ -2,7 +2,7 @@ const uuid = require('uuid');
 // const sgMail = require('@sendgrid/mail');
 const Sib = require('sib-api-v3-sdk');
 const bcrypt = require('bcrypt');
-
+require('dotenv').config()
 
 
 const User = require('../models/user');
