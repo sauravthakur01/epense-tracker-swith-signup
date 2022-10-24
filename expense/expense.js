@@ -18,6 +18,8 @@ window.addEventListener('DOMContentLoaded' , loadScreen);
         document.getElementById('left').classList.add('dark');
         document.getElementsByTagName('input')[0].classList.add('dark');
         document.getElementById('right').style = 'display:block'
+        document.getElementById('premium').style = 'display:none'
+        document.getElementById('report').style = 'display:block'
     }
 
 async function loadScreen(e){
@@ -71,7 +73,7 @@ function showExpenseOnScreen(data){
     const child = `<li class="list" id=${data.id}>
         <span class="expense-info"> ₹ ${data.amount} -${data.description} - ${data.category}</span>
         <span class="btns">
-            <button>Edit</button> 
+            
             <button onclick="remove('${data.id}')">Delete</button>
         </span>
     </li>`

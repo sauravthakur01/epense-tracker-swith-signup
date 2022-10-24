@@ -26,7 +26,7 @@ div#nav{
   justify-content: space-between;
 }
 
-#logout , #premium{
+#logout , #premium ,#report{
     
     height: 22px;
     border: 1px solid #8e44ad;
@@ -39,9 +39,12 @@ div#nav{
     box-shadow: 1px 1px 6px rgba(0,0,0,0.5);
 }
 
-#logout , #premium {
+#logout , #premium , #report{
   margin: 15px;
     width:100px;
+}
+#logout{
+  justify-content: flex-end;
 }
 
 #left.dark{
@@ -75,12 +78,13 @@ div#nav{
 }
 
 .expense-info{
-    width:75%;
+    width:85%;
     display: inline-block;
 }
 
 .btns{
-    width:20%;
+  text-align: center;
+    width:10%;
     display: inline-block;
 }
 
