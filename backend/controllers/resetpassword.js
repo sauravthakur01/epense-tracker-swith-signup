@@ -1,10 +1,12 @@
 const uuid = require('uuid');
-const sgMail = require('@sendgrid/mail');
+// const sgMail = require('@sendgrid/mail');
+const Sib = require('sib-api-v3-sdk');
 const bcrypt = require('bcrypt');
+
+
 
 const User = require('../models/user');
 const Forgotpassword = require('../models/forgotpassword');
-const { ForeignKeyConstraintError } = require('sequelize');
 
 exports.forgotpassword = async(req,res,next)=>{
     try {
@@ -20,24 +22,37 @@ exports.forgotpassword = async(req,res,next)=>{
             throw new Error(err)
         })
 
-        sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+        const client = Sib.ApiClient.instance
 
-        const msg = {
-            to: email, // Change to your recipient
-            from: 'test@example.com', // Change to your verified sender
-            subject: 'Sending with SendGrid is Fun',
-            text: 'and easy to do anywhere, even with Node.js',
-            html: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`
+        const apiKey = client.authentications['api-key']
+        apiKey.apiKey = process.env.SENDINBLUE_KEY
+
+        const tranEmailApi = new Sib.TransactionalEmailsApi()
+
+        const sender = {
+        	email: 'sauravthakur11111@gmail.com',
+        	name: 'Saurav',
         }
 
-        sgMail
-        .send(msg)
-        .then((response) => {
+        const receivers = [
+        	{
+        		email
+        	},
+        ]
+
+        tranEmailApi
+	    .sendTransacEmail({
+	    	sender,
+	    	to: receivers,
+	    	subject: 'Rest your password ',
+	    	textContent: `follow the link to rest password`,
+	    	htmlContent: `<a href="http://localhost:3000/password/resetpassword/${id}">Reset password</a>`,
+	    })
+	    .then((response) => {
             return res.status(response[0].statusCode).json({message: 'Link to reset password sent to your mail ', sucess: true})
         })
-        .catch((error) => {
-            throw new Error(error);
-        })
+	    .catch(error=>{throw new Error(error);})
+
 
     } catch (error) {
         return res.json({ message: err, sucess: false });
@@ -94,6 +109,6 @@ exports.updatepassword = async(req,res,next)=>{
         })
 
     } catch (error) {
-        
+        return res.status(403).json({ error, success: false } )
     }
 }
