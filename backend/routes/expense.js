@@ -14,4 +14,9 @@ router.get('/premium-leaderboard' , middleware.authentication , expenseControlle
 
 router.post('/leaderboard-user' , middleware.authentication , expenseController.getLeaderboardUserExpense)
 
+router.get('/download' , middleware.authentication ,expenseController.downloadExpense )
+
+router.get('/getAllDownloadUrl' , middleware.authentication ,expenseController.downloadAllUrl )
+
 module.exports = router ;
+
