@@ -27,7 +27,7 @@ async function loadScreen(e){
     e.preventDefault();
  
     localStorage.removeItem('clickedUser')
-    const usertype = localStorage.getItem('user');
+    let usertype = localStorage.getItem('user');
     console.log(usertype == "true")
     if(usertype == "true"){
         changetheme()
@@ -218,3 +218,11 @@ document.getElementById('logout').onclick = function(e){
     window.location.href = '../login/login.html'
 }
 
+document.getElementById('report').onclick = function(e){
+    
+    let usertype = localStorage.getItem('user');
+    console.log(usertype == "true")
+    if(usertype == "true"){
+        window.location.href = '../downloadreports/reports.html'
+    }
+}
