@@ -17,11 +17,16 @@ exports.postExpense  =  async (req,res,next)=>{
     }
 }
 
+// let limit_items  ;
+
 exports.getExpenses = async(req,res,next)=>{
 
     let page = req.params.pageno || 1
     
-    let limit_items = 5 ;
+    let limit_items = +(req.body.itemsPerPage) || 5 ;
+
+    console.log(+(req.body.itemsPerPage))
+
     let totalItems 
 
     try {
