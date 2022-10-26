@@ -67,9 +67,9 @@ body.dark{
   #listurl-div .list{
     list-style-type: none;
     
-    padding: 10px 0;
+    padding: 7px 0;
     border-bottom: 2px solid #adadad;
-    margin: 10px 30px;
+    margin: 7px 30px;
   }
 
   .list{

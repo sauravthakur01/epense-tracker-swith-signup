@@ -18,9 +18,27 @@ exports.postExpense  =  async (req,res,next)=>{
 }
 
 exports.getExpenses = async(req,res,next)=>{
+
+    let page = req.params.pageno || 1
+    
+    let limit_items = 5 ;
+    let totalItems 
+
     try {
-        let data = await req.user.getExpenses()
-        res.status(200).json(data)
+
+        let count = await Expense.count({where:{userId:req.user.id}})
+        totalItems = count ; 
+
+        let data = await req.user.getExpenses({offset:(page-1)*limit_items , limit:limit_items})
+        res.status(200).json({data ,
+            info: {
+              currentPage: page,
+              hasNextPage: totalItems > page * limit_items,
+              hasPreviousPage: page > 1,
+              nextPage: +page + 1,
+              previousPage: +page - 1,
+              lastPage: Math.ceil(totalItems / limit_items),
+            }})
     } catch (error) {
         res.status(500).json({message:'unable to get expwnse'})
     }

@@ -1,6 +1,7 @@
 const form = document.getElementById('expense-form')
 const expenseDiv = document.getElementById('expense-div');
 const leaderboardDiv = document.getElementById('right'); 
+const pagination = document.getElementById('pagination');
 
 let token = localStorage.getItem('token');
 
@@ -34,12 +35,68 @@ async function loadScreen(e){
         getPremiumLeaderboard()
     }
 
+    let page = 1  ;
+    getLoadExpenses(page) ;
+    
+}
+
+async function getLoadExpenses(page){
     try {
-        let response = await axios.get("http://localhost:3000/expense/" , {headers:{"Authorization" : token}})
-        // console.log(response.data)
-        response.data.map(expense=>showExpenseOnScreen(expense))
+        let response = await axios.get(`http://localhost:3000/expense/${page}` , {headers:{"Authorization" : token}})
+        // console.log(response.data.info)
+        showExpenseOnScreen(response.data.data)
+        showPagination(response.data.info)
     } catch (error) {
         console.log(error);
+    }
+}
+
+function showExpenseOnScreen(data){
+
+    expenseDiv.innerHTML =''
+
+    data.map(data=>{ 
+    const child = `<li class="list" id=${data.id}>
+        <span class="expense-info"> ₹ ${data.amount} -${data.description} - ${data.category}</span>
+        <span class="btns">
+            
+            <button onclick="remove('${data.id}')">Delete</button>
+        </span>
+    </li>`
+
+    expenseDiv.innerHTML += child
+    })
+}
+
+function showPagination({currentPage,hasNextPage,hasPreviousPage,nextPage,previousPage,lastPage}){
+    
+    pagination.innerHTML ='';
+    
+    if(hasPreviousPage){
+        const button1 = document.createElement('button');
+        button1.innerHTML = previousPage ;
+        button1.addEventListener('click' , ()=>getLoadExpenses(previousPage))
+        pagination.appendChild(button1)
+    }
+    
+    const button2 = document.createElement('button');
+    button2.classList.add('active')
+    button2.innerHTML = currentPage ;
+    button2.addEventListener('click' , ()=>getLoadExpenses(currentPage))
+    pagination.appendChild(button2)
+
+    if(hasNextPage){
+        const button3 = document.createElement('button');
+        button3.innerHTML = nextPage ;
+        button3.addEventListener('click' , ()=>getLoadExpenses(nextPage))
+        pagination.appendChild(button3)
+    }
+
+    if( currentPage!=lastPage && nextPage!=lastPage){
+        const button3 = document.createElement('button');
+        button3.innerHTML = lastPage ;
+        button3.addEventListener('click' , ()=>getLoadExpenses(lastPage))
+        pagination.appendChild(button3)
     }
 }
 
@@ -58,7 +115,7 @@ async function addExpense(e){
         let response = await axios.post("http://localhost:3000/expense/add-expense", expenseDetails, {headers : {'Authorization': token}})
         if(response.status === 201){
             // console.log(response.data.data)
-            showExpenseOnScreen(response.data.data)
+            addExpenseOnscreen(response.data.data)
         }else{
             throw new Error ('unavle to add Expense')
         }
@@ -68,8 +125,7 @@ async function addExpense(e){
     }  
 }
 
-
-function showExpenseOnScreen(data){
+function addExpenseOnscreen(data){
     const child = `<li class="list" id=${data.id}>
         <span class="expense-info"> ₹ ${data.amount} -${data.description} - ${data.category}</span>
         <span class="btns">
@@ -78,8 +134,9 @@ function showExpenseOnScreen(data){
         </span>
     </li>`
 
-    expenseDiv.innerHTML += child
+    expenseDiv.innerHTML += child ;
 }
+
 
 async function remove (id){
     try {
@@ -117,7 +174,7 @@ async function getPremiumLeaderboard(){
                 response.data.data.sort((a,b)=>{
                     return a.totalExpense - b.totalExpense;
                 });
-                console.log(response.data.data[0].user)
+                
                 response.data.data.map((user , id)=>{
                     showLeaderboard(user , id);
                 })
