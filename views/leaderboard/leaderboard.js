@@ -6,10 +6,13 @@ async function fetchuserExpenses(e){
    e.preventDefault()
 
    let token = localStorage.getItem('token');
-   let loadUserId = localStorage.getItem('clickedUser')
-//    console.log(loadUserId , token)
+   let loadUserId = +localStorage.getItem('clickedUser')
+//    
     try {
-        let response = await axios.post('http://localhost:3000/expense/leaderboard-user' , {loadUserId} ,{headers : {'Authorization': token}} )
+        console.log(loadUserId , token)
+        let response = await axios.get(`http://localhost:3000/expense/getInfo/${loadUserId}`  ,  {headers : {'Authorization': token}} )
+        
+        console.log(response)
         if(response.data.success){
             response.data.data.map(data=>{
                 showOnScreen(data);

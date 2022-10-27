@@ -3,6 +3,13 @@ const app = express();
 const bodyParser = require('body-parser');
 const sequelize = require('./util/database');
 const cors = require('cors');
+const helmet = require("helmet");
+const compression = require('compression')
+const fs = require('fs');
+const path = require('path');
+const morgan = require('morgan');
+
+const accessLogStream = fs.createWriteStream('access.log', {flag: 'a'})
 
 const User = require('./models/user');
 const Expense = require('./models/expense');
@@ -17,7 +24,10 @@ const forgetpassRouter = require('./routes/forgetpass')
 
 app.use(express.json())
 
+app.use(helmet());
 app.use(cors());
+app.use(compression());
+app.use(morgan('combined', {stream: accessLogStream}));
 
 app.use(bodyParser.json({extended:false}))
 
@@ -40,7 +50,7 @@ User.hasMany(Downloadurl);
 
 sequelize.sync()
 .then(()=>{
-    app.listen(3000 ,()=>{
+    app.listen(process.env.PORT || 3000 ,()=>{
         console.log('running');
     })
 })

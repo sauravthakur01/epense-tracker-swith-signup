@@ -104,7 +104,7 @@ function showPagination({currentPage,hasNextPage,hasPreviousPage,nextPage,previo
         pagination.appendChild(button3)
     }
 
-    if( currentPage!=lastPage && nextPage!=lastPage){
+    if( currentPage!=lastPage && nextPage!=lastPage && lastPage != 0){
         const button3 = document.createElement('button');
         button3.innerHTML = lastPage ;
         button3.addEventListener('click' , ()=>getLoadExpenses(lastPage , itemsPerPage))

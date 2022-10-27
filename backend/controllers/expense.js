@@ -98,8 +98,9 @@ exports.getAllUserExpenses = async(req,res,next)=>{
 exports.getLeaderboardUserExpense = async(req,res,next)=>{
     try {
         if(req.user.ispremiumuser){
-            let userId = req.body.loadUserId;
-
+            let userId = req.params.loadUserId;
+            console.log(userId)
+            console.log('##############################S')
             let user = await User.findOne({where:{id:userId}})
             const expenses = await user.getExpenses();
             

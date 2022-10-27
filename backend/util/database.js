@@ -1,6 +1,8 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize ('expense-tracker' ,'root', 'sp.191273',{
+require('dotenv').config()
+
+const sequelize = new Sequelize (  process.env.DB_NAME ,process.env.SQL_USERNAME , process.env.SQL_PASS ,{
     dialect:'mysql',
     host:'localhost'
 })

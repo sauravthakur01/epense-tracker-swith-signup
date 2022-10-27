@@ -12,7 +12,7 @@ router.delete('/delete-expense/:expenseid', middleware.authentication, expenseCo
 
 router.get('/premium-leaderboard' , middleware.authentication , expenseController.getAllUserExpenses )
 
-router.post('/leaderboard-user' , middleware.authentication , expenseController.getLeaderboardUserExpense)
+router.get('/getInfo/:loadUserId' , middleware.authentication , expenseController.getLeaderboardUserExpense)
 
 router.get('/download' , middleware.authentication ,expenseController.downloadExpense )
 
